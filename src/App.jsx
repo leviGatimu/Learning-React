@@ -17,6 +17,10 @@ function App() {
     setCart(prev => [...prev, product]);
   };
 
+  const handleRemoveFromCart = (index) => {
+    setCart(prev => prev.filter((_, i) => i !== index));
+  };
+
   const specialProduct = PRODUCTS[0];
 
   return (
@@ -74,9 +78,11 @@ function App() {
        <CartModal 
          cart={cart} 
          onClose={() => setIsCartOpen(false)} 
+         onRemove={handleRemoveFromCart}
        />
      )}
    </div>
+
   )
 }
 
