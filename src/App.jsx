@@ -2,23 +2,18 @@ import './App.css'
 import Header from './components/Header.jsx';
 import Hero from './components/Hero.jsx';
 import Footer from './components/Footer.jsx';
+import ProductList  from './components/ProductList.jsx';
+import { useState } from 'react';
 import ProductCard from './components/ProductCard.jsx';
 import { PRODUCTS } from './data/products.js';
-import { useState } from 'react';
 
 function App() {
   const [showSpecial, setShowSpecial] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const specialProduct = PRODUCTS[0];
-
   const handleAddToCart = (product) => {
     console.log("🛒 Added to cart:", product.name, product);
   };
-
-  const filteredProducts = PRODUCTS.filter(p => 
-    p.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
+  const specialProduct = PRODUCTS[0];
   return (
    <>
      <Header searchQuery={searchQuery} onSearchChange={setSearchQuery} />
@@ -36,21 +31,7 @@ function App() {
         )}
       </div>
      </section>
-     <section className="Products">
-       <section className="Special-Section">
-     <h2 className="section-title">Products</h2>
-       <div className="product-grid">
-         {filteredProducts.length > 0 ? (
-           filteredProducts.map(p => (
-             <ProductCard key={p.id} product={p} onAddToCart={handleAddToCart} />
-           ))
-         ) : (
-           <p className="special-placeholder">No products match your search.</p>
-         )}
-       </div>
-       </section>
-     </section>
-     
+     <ProductList searchQuery={searchQuery} />
      <Footer />
    </>
   )
