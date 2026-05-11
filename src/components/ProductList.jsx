@@ -1,7 +1,7 @@
 import ProductCard from './ProductCard.jsx';
 import { PRODUCTS } from '../data/products.js';
 
-function ProductList({ searchQuery }){
+function ProductList({ searchQuery, onClearSearch }){
     const filteredProducts = PRODUCTS.filter(p => 
       p.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -19,7 +19,12 @@ function ProductList({ searchQuery }){
              <ProductCard key={p.id} product={p} onAddToCart={handleAddToCart} />
            ))
          ) : (
-           <p className="special-placeholder">No products match your search.</p>
+           <div className="empty-state">
+             <p className="special-placeholder">No products match your search.</p>
+             <button className="btn-secondary clear-search-btn" onClick={onClearSearch}>
+               Clear search
+             </button>
+           </div>
          )}
        </div>
      </section>

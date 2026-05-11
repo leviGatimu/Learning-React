@@ -31,7 +31,7 @@ function App() {
         )}
       </div>
      </section>
-     <ProductList searchQuery={searchQuery} />
+     <ProductList searchQuery={searchQuery} onClearSearch={() => setSearchQuery("")} />
      <Footer />
    </>
   )

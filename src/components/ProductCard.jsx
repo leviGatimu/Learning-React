@@ -1,12 +1,15 @@
 function ProductCard({ product, onAddToCart }) {
   return (
-    <div className="product-card">
+    <div className={`product-card ${!product.inStock ? 'out-of-stock' : ''}`}>
       <div className="product-image-container">
         <img
           src={product.image}
           alt={product.name}
           className="product-image"
         />
+        {!product.inStock && (
+          <div className="stock-badge">Out of stock</div>
+        )}
       </div>
 
       <div className="product-info">
@@ -19,8 +22,12 @@ function ProductCard({ product, onAddToCart }) {
           }).format(product.priceRwf || product.price)}
         </p>
       </div>
-      <button className="btn-secondary add-to-cart-btn" onClick={() => onAddToCart && onAddToCart(product)}>
-        Add to cart
+      <button 
+        className="btn-secondary add-to-cart-btn" 
+        onClick={() => onAddToCart && onAddToCart(product)}
+        disabled={!product.inStock}
+      >
+        {product.inStock ? 'Add to cart' : 'Unavailable'}
       </button>
     </div>
   );
