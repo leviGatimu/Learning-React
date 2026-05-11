@@ -1,14 +1,10 @@
 import ProductCard from './ProductCard.jsx';
 import { PRODUCTS } from '../data/products.js';
 
-function ProductList({ searchQuery, onClearSearch }){
+function ProductList({ searchQuery, onClearSearch, onAddToCart }){
     const filteredProducts = PRODUCTS.filter(p => 
       p.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-
-    const handleAddToCart = (product) => {
-      console.log("🛒 Added to cart:", product.name, product);
-    };
 
     return(
      <section className="py-16 px-6 bg-white">
@@ -21,7 +17,7 @@ function ProductList({ searchQuery, onClearSearch }){
          {filteredProducts.length > 0 ? (
            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
              {filteredProducts.map(p => (
-               <ProductCard key={p.id} product={p} onAddToCart={handleAddToCart} />
+               <ProductCard key={p.id} product={p} onAddToCart={onAddToCart} />
              ))}
            </div>
          ) : (

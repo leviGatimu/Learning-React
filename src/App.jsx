@@ -4,18 +4,29 @@ import Footer from './components/Footer.jsx';
 import ProductList  from './components/ProductList.jsx';
 import { useState } from 'react';
 import ProductCard from './components/ProductCard.jsx';
+import CartModal from './components/CartModal.jsx';
 import { PRODUCTS } from './data/products.js';
 
 function App() {
   const [showSpecial, setShowSpecial] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [cart, setCart] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
   const handleAddToCart = (product) => {
-    console.log("🛒 Added to cart:", product.name, product);
+    setCart(prev => [...prev, product]);
   };
+
   const specialProduct = PRODUCTS[0];
+
   return (
    <div className="min-h-screen bg-gray-50 flex flex-col">
-     <Header searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+     <Header 
+        searchQuery={searchQuery} 
+        onSearchChange={setSearchQuery} 
+        cartCount={cart.length}
+        onOpenCart={() => setIsCartOpen(true)}
+     />
      <main className="flex-grow">
        <Hero />
 
@@ -51,9 +62,20 @@ function App() {
         </div>
        </section>
 
-       <ProductList searchQuery={searchQuery} onClearSearch={() => setSearchQuery("")} />
+       <ProductList 
+          searchQuery={searchQuery} 
+          onClearSearch={() => setSearchQuery("")} 
+          onAddToCart={handleAddToCart}
+       />
      </main>
      <Footer />
+
+     {isCartOpen && (
+       <CartModal 
+         cart={cart} 
+         onClose={() => setIsCartOpen(false)} 
+       />
+     )}
    </div>
   )
 }
