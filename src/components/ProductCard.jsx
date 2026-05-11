@@ -1,4 +1,4 @@
-function ProductCard({ product }) {
+function ProductCard({ product, onAddToCart }) {
   return (
     <div className="product-card">
       <div className="product-image-container">
@@ -19,6 +19,9 @@ function ProductCard({ product }) {
           }).format(product.priceRwf || product.price)}
         </p>
       </div>
+      <button className="btn-secondary add-to-cart-btn" onClick={() => onAddToCart && onAddToCart(product)}>
+        Add to cart
+      </button>
     </div>
   );
 }

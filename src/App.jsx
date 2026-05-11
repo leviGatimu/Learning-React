@@ -8,9 +8,11 @@ import { useState } from 'react';
 
 function App() {
   const [showSpecial, setShowSpecial] = useState(false);
-  
-  // Let's use the first product as the special product
   const specialProduct = PRODUCTS[0];
+
+  const handleAddToCart = (product) => {
+    console.log("🛒 Added to cart:", product.name, product);
+  };
 
   return (
    <>
@@ -23,7 +25,7 @@ function App() {
       </div>
       <div className="special-content">
         { showSpecial ? (
-          <ProductCard product={specialProduct} />
+          <ProductCard product={specialProduct} onAddToCart={handleAddToCart} />
         ) : (
           <p className="special-placeholder">No special product shown yet.</p>
         )}
@@ -34,7 +36,7 @@ function App() {
      <h2 className="section-title">Products</h2>
        <div className="product-grid">
          {PRODUCTS.map(p => (
-           <ProductCard key={p.id} product={p} />
+           <ProductCard key={p.id} product={p} onAddToCart={handleAddToCart} />
          ))}
        </div>
        </section>
