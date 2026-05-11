@@ -8,15 +8,20 @@ import { useState } from 'react';
 
 function App() {
   const [showSpecial, setShowSpecial] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const specialProduct = PRODUCTS[0];
 
   const handleAddToCart = (product) => {
     console.log("🛒 Added to cart:", product.name, product);
   };
 
+  const filteredProducts = PRODUCTS.filter(p => 
+    p.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
    <>
-     <Header />
+     <Header searchQuery={searchQuery} onSearchChange={setSearchQuery} />
      <Hero />
      <section className="Special-Section">
       <h2 className="section-title">Today's Special</h2>
@@ -35,9 +40,13 @@ function App() {
        <section className="Special-Section">
      <h2 className="section-title">Products</h2>
        <div className="product-grid">
-         {PRODUCTS.map(p => (
-           <ProductCard key={p.id} product={p} onAddToCart={handleAddToCart} />
-         ))}
+         {filteredProducts.length > 0 ? (
+           filteredProducts.map(p => (
+             <ProductCard key={p.id} product={p} onAddToCart={handleAddToCart} />
+           ))
+         ) : (
+           <p className="special-placeholder">No products match your search.</p>
+         )}
        </div>
        </section>
      </section>
