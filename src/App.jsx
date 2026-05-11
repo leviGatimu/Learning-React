@@ -5,13 +5,14 @@ import ProductList  from './components/ProductList.jsx';
 import { useState, useEffect } from 'react';
 import ProductCard from './components/ProductCard.jsx';
 import CartModal from './components/CartModal.jsx';
+import { PRODUCTS } from './data/products.js';
 
-// Replace with your actual MockAPI URL
-const API_URL = "https://67bc876eed7147ed8158509d.mockapi.io/products";
+// If you have a working MockAPI URL, paste it here:
+const API_URL = ""; 
 
 function App() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState(PRODUCTS); // Default to local data
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showSpecial, setShowSpecial] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -22,6 +23,9 @@ function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   useEffect(() => {
+    // Only fetch if a URL is provided
+    if (!API_URL) return;
+
     const fetchProducts = async () => {
       try {
         setLoading(true);
@@ -31,7 +35,9 @@ function App() {
         setProducts(data);
         setError(null);
       } catch (err) {
-        setError(err.message);
+        console.error("API Error:", err.message);
+        setError("Warehouse connection failed. Using local stock.");
+        // We keep the default PRODUCTS state as a fallback
       } finally {
         setLoading(false);
       }
