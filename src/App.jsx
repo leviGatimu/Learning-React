@@ -2,7 +2,7 @@ import Header from './components/Header.jsx';
 import Hero from './components/Hero.jsx';
 import Footer from './components/Footer.jsx';
 import ProductList  from './components/ProductList.jsx';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ProductCard from './components/ProductCard.jsx';
 import CartModal from './components/CartModal.jsx';
 import { PRODUCTS } from './data/products.js';
@@ -10,8 +10,17 @@ import { PRODUCTS } from './data/products.js';
 function App() {
   const [showSpecial, setShowSpecial] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    // Initial hydration from localStorage
+    const savedCart = localStorage.getItem("simba-cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  // Sync cart to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("simba-cart", JSON.stringify(cart));
+  }, [cart]);
 
   const handleAddToCart = (product) => {
     setCart(prev => [...prev, product]);
